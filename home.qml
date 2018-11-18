@@ -61,8 +61,9 @@ Page {
                  color: entryMouseArea.containsMouse ? "grey" : "lightgrey"
                  anchors.left: parent.left
                  anchors.right: parent.right
-                 height: 24
+                 height: 3 * entryText.font.pixelSize
                  Text {
+                     id: entryText
                      anchors.centerIn: parent
                      text: entryName
                      opacity: 1
