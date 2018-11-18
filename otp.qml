@@ -51,33 +51,45 @@ Page {
 
     title: qsTr("TOTP") + " " + entry
 
-    Column {
+    Flickable {
         anchors.fill: parent
+        interactive: true
+        clip: true
+        contentHeight: column.height
+        ScrollBar.vertical: ScrollBar { }
 
-        Label {
-            id: labelName
+        Column {
+            id: column
+            anchors.fill: parent
             anchors.left: parent.left
             anchors.right: parent.right
+            spacing: 5
 
-            text: entry
-            horizontalAlignment: Text.AlignHCenter
-        }
+            Label {
+                id: labelName
+                anchors.left: parent.left
+                anchors.right: parent.right
 
-        Label {
-            id: labelOTP
-            anchors.left: parent.left
-            anchors.right: parent.right
+                text: entry
+                horizontalAlignment: Text.AlignHCenter
+            }
 
-            text: otp
-            font.pixelSize: 2 * labelName.font.pixelSize
-            font.bold: true
-            horizontalAlignment: Text.AlignHCenter
-        }
+            Label {
+                id: labelOTP
+                anchors.left: parent.left
+                anchors.right: parent.right
 
-        ProgressBar {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            value: remainingTime / timestep
+                text: otp
+                font.pixelSize: 2 * labelName.font.pixelSize
+                font.bold: true
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            ProgressBar {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                value: remainingTime / timestep
+            }
         }
     }
 }
