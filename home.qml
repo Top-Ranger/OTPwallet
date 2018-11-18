@@ -42,6 +42,8 @@ Page {
         anchors.fill: parent
         model: entryList
 
+        ScrollBar.vertical: ScrollBar { }
+
         header: Button {
             anchors.left: parent.left
             anchors.right: parent.right
