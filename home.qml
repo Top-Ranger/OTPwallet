@@ -44,6 +44,8 @@ Page {
 
         ScrollBar.vertical: ScrollBar { }
 
+        spacing: 5
+
         header: Button {
             anchors.left: parent.left
             anchors.right: parent.right

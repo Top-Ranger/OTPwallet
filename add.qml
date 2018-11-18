@@ -23,31 +23,41 @@ import com.github.top_ranger.OTPwallet.TOTP 1.0
 Page {
     title: qsTr("Add entry")
 
-    Column {
+    Flickable {
         anchors.fill: parent
+        interactive: true
+        clip: true
+        contentHeight: column.height
+        ScrollBar.vertical: ScrollBar { }
 
-        TextField {
-            id: name
-            anchors.left: parent.left
-            anchors.right: parent.right
-            placeholderText: qsTr("Entry name")
-        }
+        Column {
+            id: column
+            anchors.fill: parent
+            spacing: 5
 
-        TextField {
-            id: secret
-            anchors.left: parent.left
-            anchors.right: parent.right
-            placeholderText: qsTr("Secret")
-        }
+            TextField {
+                id: name
+                anchors.left: parent.left
+                anchors.right: parent.right
+                placeholderText: qsTr("Entry name")
+            }
 
-        Button {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            text: qsTr("Add entry")
-            onClicked: {
-                entryManager.addEntry(name.text, secret.text)
-                stackView.get(0, StackView.ForceLoad).newEntry = name.text
-                stackView.pop(Qt.resolvedUrl("add.qml"))
+            TextField {
+                id: secret
+                anchors.left: parent.left
+                anchors.right: parent.right
+                placeholderText: qsTr("Secret")
+            }
+
+            Button {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                text: qsTr("Add entry")
+                onClicked: {
+                    entryManager.addEntry(name.text, secret.text)
+                    stackView.get(0, StackView.ForceLoad).newEntry = name.text
+                    stackView.pop(Qt.resolvedUrl("add.qml"))
+                }
             }
         }
     }
