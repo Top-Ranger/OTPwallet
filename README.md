@@ -6,4 +6,4 @@ A simple UI for managing TOTP on Linux desktop. The secrets are stored in KWalle
 * pyotp
 
 ## Licence
-GPL-3.0-or-later
+Apache 2.0
