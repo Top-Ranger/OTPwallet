@@ -58,7 +58,7 @@ EntryManager::~EntryManager()
 
 QStringList EntryManager::getAllEntries()
 {
-    QDBusMessage updateMessage = QDBusMessage::createMethodCall("org.kde.kwalletd", "/modules/kwalletd", "org.kde.KWallet", "entryList");
+    QDBusMessage updateMessage = QDBusMessage::createMethodCall("org.kde.kwalletd5", "/modules/kwalletd5", "org.kde.KWallet", "entryList");
     updateMessage << (int) _handle << QString(NAME) << QString(NAME);
     QDBusMessage answer = _dbus.call(updateMessage);
     if(answer.type() == QDBusMessage::ErrorMessage)
@@ -74,7 +74,7 @@ QStringList EntryManager::getAllEntries()
 
 bool EntryManager::removeEntry(QString name)
 {
-    QDBusMessage deleteMessage = QDBusMessage::createMethodCall("org.kde.kwalletd", "/modules/kwalletd", "org.kde.KWallet", "removeEntry");
+    QDBusMessage deleteMessage = QDBusMessage::createMethodCall("org.kde.kwalletd5", "/modules/kwalletd5", "org.kde.KWallet", "removeEntry");
     deleteMessage << (int) _handle << QString(NAME) << name << QString(NAME);
     QDBusMessage answer = _dbus.call(deleteMessage);
     if(answer.type() == QDBusMessage::ErrorMessage)
@@ -89,7 +89,7 @@ bool EntryManager::removeEntry(QString name)
 
 bool EntryManager::addEntry(QString name, QString secret)
 {
-    QDBusMessage addMessage = QDBusMessage::createMethodCall("org.kde.kwalletd", "/modules/kwalletd", "org.kde.KWallet", "writeMap");
+    QDBusMessage addMessage = QDBusMessage::createMethodCall("org.kde.kwalletd5", "/modules/kwalletd5", "org.kde.KWallet", "writeMap");
     QHash<QString, QString> entry;
     entry["secret"] = secret;
     addMessage << (int) _handle << QString(NAME) << name << hashToByte(entry) << QString(NAME);
@@ -106,7 +106,7 @@ bool EntryManager::addEntry(QString name, QString secret)
 
 QString EntryManager::getSecret(QString name)
 {
-    QDBusMessage askEntryMessage = QDBusMessage::createMethodCall("org.kde.kwalletd", "/modules/kwalletd", "org.kde.KWallet", "readMap");
+    QDBusMessage askEntryMessage = QDBusMessage::createMethodCall("org.kde.kwalletd5", "/modules/kwalletd5", "org.kde.KWallet", "readMap");
     askEntryMessage << (int) _handle << QString(NAME) << name << QString(NAME);
     QDBusMessage answer = _dbus.call(askEntryMessage);
     if(answer.type() == QDBusMessage::ErrorMessage)
@@ -185,7 +185,7 @@ void EntryManager::connectToDbus()
         return;
     }
 
-    QDBusMessage walletMessage = QDBusMessage::createMethodCall("org.kde.kwalletd", "/modules/kwalletd", "org.kde.KWallet", "wallets");
+    QDBusMessage walletMessage = QDBusMessage::createMethodCall("org.kde.kwalletd5", "/modules/kwalletd5", "org.kde.KWallet", "wallets");
     QDBusMessage answerWallets = _dbus.call(walletMessage);
     if(answerWallets.type() == QDBusMessage::ErrorMessage)
     {
@@ -212,7 +212,7 @@ void EntryManager::connectToDbus()
         _wallet = walletList[0];
     }
 
-    QDBusMessage openMessage = QDBusMessage::createMethodCall("org.kde.kwalletd", "/modules/kwalletd", "org.kde.KWallet", "open");
+    QDBusMessage openMessage = QDBusMessage::createMethodCall("org.kde.kwalletd5", "/modules/kwalletd5", "org.kde.KWallet", "open");
     openMessage << _wallet << (qlonglong) 0 << QString(NAME);
     QDBusMessage answer = _dbus.call(openMessage);
     if(answer.type() == QDBusMessage::ErrorMessage)
@@ -233,8 +233,8 @@ void EntryManager::connectToDbus()
         return;
     }
     // Signals
-    _dbus.connect("org.kde.kwalletd", "/modules/kwalletd", "org.kde.KWallet", "applicationDisconnected", this, SLOT(getDisconnectSignal(QString,QString)));
-    _dbus.connect("org.kde.kwalletd", "/modules/kwalletd", "org.kde.KWallet", "walletClosed", this, SLOT(getDisconnectSignal(int)));
+    _dbus.connect("org.kde.kwalletd5", "/modules/kwalletd5", "org.kde.KWallet", "applicationDisconnected", this, SLOT(getDisconnectSignal(QString,QString)));
+    _dbus.connect("org.kde.kwalletd5", "/modules/kwalletd5", "org.kde.KWallet", "walletClosed", this, SLOT(getDisconnectSignal(int)));
 
     createFolders();
 }
@@ -247,7 +247,7 @@ void EntryManager::disconnectFromDbus()
         DEBUG(debug);
         return;
     }
-    QDBusMessage closeMessage = QDBusMessage::createMethodCall("org.kde.kwalletd", "/modules/kwalletd", "org.kde.KWallet", "close");
+    QDBusMessage closeMessage = QDBusMessage::createMethodCall("org.kde.kwalletd5", "/modules/kwalletd5", "org.kde.KWallet", "close");
     closeMessage << (int) _handle << false << QString(NAME);
     QDBusMessage answer = _dbus.call(closeMessage);
     if(answer.type() == QDBusMessage::ErrorMessage)
@@ -265,7 +265,7 @@ void EntryManager::disconnectFromDbus()
 
 void EntryManager::createFolders()
 {
-    QDBusMessage askFolderMessage = QDBusMessage::createMethodCall("org.kde.kwalletd", "/modules/kwalletd", "org.kde.KWallet", "hasFolder");
+    QDBusMessage askFolderMessage = QDBusMessage::createMethodCall("org.kde.kwalletd5", "/modules/kwalletd5", "org.kde.KWallet", "hasFolder");
     askFolderMessage << (int) _handle << QString(NAME) << QString(NAME);
     QDBusMessage answer = _dbus.call(askFolderMessage);
     if(answer.type() == QDBusMessage::ErrorMessage)
@@ -278,7 +278,7 @@ void EntryManager::createFolders()
 
     if(!answer.arguments().at(0).toBool())
     {
-        QDBusMessage createFolderMessage = QDBusMessage::createMethodCall("org.kde.kwalletd", "/modules/kwalletd", "org.kde.KWallet", "createFolder");
+        QDBusMessage createFolderMessage = QDBusMessage::createMethodCall("org.kde.kwalletd5", "/modules/kwalletd5", "org.kde.KWallet", "createFolder");
         createFolderMessage << (int) _handle << QString(NAME) << QString(NAME);
         answer = _dbus.call(createFolderMessage);
         if(answer.type() == QDBusMessage::ErrorMessage)
